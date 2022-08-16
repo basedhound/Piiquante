@@ -1,21 +1,20 @@
-//*==============================================
-//*================= USER ROUTE =================
-//*==============================================
-
+//*===============================================
+//*================= USER ROUTES =================
+//*===============================================
 
 //! Base
 // Declarer "Express" :
 const express = require('express');
 
 // Declarer Router
-const userRoutes = express.Router();
+const userRouter = express.Router();
 
 // Declare Controller
 const userController = require('../controllers/user')
 
 //! Routes
-userRoutes.post('/api/auth/signup', userController.signup)
-userRoutes.post('/api/auth/login', userController.login)
+userRouter.post('/api/auth/signup', userController.signup)
+userRouter.post('/api/auth/login', userController.login)
 
 //! Exporter Router
-module.exports = userRoutes;
+module.exports = userRouter;

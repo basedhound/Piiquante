@@ -2,7 +2,7 @@
 //*================= USER MODEL =================
 //*==============================================
 
-// Importer MONGOOSE
+// Importer Mongoose
 const mongoose = require('mongoose');
 
 // Déclarer Mongoose unique validator plugin

@@ -61,9 +61,9 @@ app.listen(port, () => {
 });
 
 // Test http://localhost:3000/
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+// app.get('/', (req, res) => {
+//     res.send('Hello World!');
+// });
 
 //*============================================
 //*================= IMPORTS ==================
@@ -73,11 +73,11 @@ app.get('/', (req, res) => {
 const mongoose = require("./services/database");
 
 // Routes Utilisateur
-const userRoutes = require('./routes/user')
+const userRouter = require('./routes/user')
 // Appel dans middleware app.js
 
 // Routes Sauce
-// const sauceRoutes = require('./routes/sauce')
+const sauceRouter = require('./routes/sauce')
 // Appel dans middleware app.js
 
 // Accès Path du serveur pour Multer (images)
@@ -95,27 +95,14 @@ app.use(cors())
 app.use(express.json()) 
 
 //* Call IMAGES : stuff.js (gestion images pour requête POST)
-app.use('/public/images', express.static(path.join(__dirname, 'images')))
+app.use('/public/images', express.static(path.join(__dirname, '/public/images')))
 // express.static()  et  path.join() : Configurez votre serveur pour renvoyer des fichiers statiques pour une route donnée
 
+//* Appel USER routeur (routes/user.js)
+app.use(userRouter);
+
 //* Appel USER routeur (routes/user.js) | Ajout "auth" à la route (middleware/auth)
-app.use(userRoutes);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.use(sauceRouter);
 
 
 //! EXPORT APP
