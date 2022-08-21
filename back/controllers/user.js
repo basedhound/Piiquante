@@ -1,82 +1,67 @@
-//*===================================================
-//*================= USER CONTROLLER =================
-//*===================================================
+//===================================================
+//================= USER CONTROLLER =================
+//===================================================
 
-//! Base 
-// Importer modèle "User"
-const User = require('../models/User');
+//* Imports :
+const User = require('../models/User'); // Modèle "User"
+const cryptojs = require('crypto-js') // Crypto-js (chiffrage email)
+const bcrypt = require('bcrypt'); // Bcrypt (hashage password)
+const jwt = require('jsonwebtoken'); // Json-Web-Token (authentification)
+const jwtKey = process.env.JWT_KEY; // Clé secrète JWT (.env)
+const cryptojsKey = process.env.CRYPTOJS_KEY; // Clé secrète Crypto-js (.env)
 
-// (Sécurité) Importer Bcrypt 
-const bcrypt = require('bcrypt');
+//* Fonctions :
 
-// (Sécurité) Importer JSON-Web-Token
-const jwt = require('jsonwebtoken');
-
-
-//! Fonctions
-
-//* SIGNUP => Créer un nouveau utilisateur
+// Inscription => Créer un nouveau utilisateur
 exports.signup = (req, res, next) => {
-    // Appel de "bcrypt.hash", fonction qui crypte passwor => sur body.password (mdp user) => 10 fois (tours de cryptages)
+    // Chiffrer email
+    const emailCryptojs = cryptojs.HmacSHA256(req.body.email, cryptojsKey)
+    // Hasher password (10 fois)
     bcrypt.hash(req.body.password, 10)
-        // Ensuite, mot de passe dans nouvel utilisateur
+        // Transmettre mail/pass à un objet User
         .then(hashedPassword => {
             // Crée un new utilisateur
             const user = new User({
-                // Utiliser email fourni dans le corps de la requête
-                email: req.body.email,
-                // Utiliser email crypté (hashed) créé juste au-dessus
+                email: emailCryptojs,
                 password: hashedPassword
             });
-            // Utiliser fonction "save" de notre "User" pour engistrer dans la base de données
+            // Méthode "save" : Engistrer dans la base de données
             user.save()
-                // 201 = Création de ressources => object.json => message
+                // 201 = Création de ressources
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                // 500 = Server error (traitement) => to object.json 
+                // 500 = Erreur Serveur
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(501).json({ error }));
 };
 
-//* LOGIN => Vérifier sur un utilisateur existe + correspondance mot de passe
-/*  Maintenant que nous pouvons créer des utilisateurs dans la base de données, 
-il nous faut une méthode permettant de vérifier si un utilisateur qui tente de se connecter dispose d'identifiants valides. 
-Implémentons donc notre fonction login.*/
 
-// (Sécurité) Importer clé secrète de Json-Web-Token stockée en variable d'environnement (fichier .env)
-const jwtKey = process.env.JWTKEY;
-
+// Connexion => Correspondance mail et password
 exports.login = (req, res, next) => {
-    // Utiliser méthode "findOne" de notre modèle User + filtre/selecteur
-    User.findOne({ email: req.body.email })
-        // Comparer résultat avec database
+    // Recupérer mail crypté, le convertir en string
+    const emailCryptojs = cryptojs.HmacSHA256(req.body.email, cryptojsKey).toString()
+    // Chercher correspondance dans la database (Méthode "findOne")
+    User.findOne({ email: emailCryptojs.toString() })
         .then(user => {
-            // Si correspondance nulle
             if (user === null) {
-                // Utilisateur n'existe pas = message d'erreur
-                res.status(401).json({ message: 'Paire identifiant/mot de passe incorrecte' });
+                // Pas de correspondance, échec de la connexion
+                res.status(401).json({ message: 'L’adresse e-mail que vous avez saisie n’est associée à aucun compte' });
             } else {
-                // Si utilisateur existe, comparer mdp fourni/database avec "bcrypt.compare"
-                // req.body.password = Fourni par utilisateur | user.password = Conservé dans database
+                // Si correspondance mail, comparer passwords requête/database (Fonction "compare" de Bcrypt)
                 bcrypt.compare(req.body.password, user.password)
                     .then(valid => {
-                        // Si password est faux => erreur d'authentification
                         if (!valid) {
+                            // Invalide, échec de la connexion
                             res.status(401).json({ message: 'Paire identifiant/mot de passe incorrecte' })
-                            // Si password est correct => Envoi d'bjet nécessaire à l'authentificaion
                         } else {
-                            // Réponse : Renvoyer le token au front-end
+                            // Valide, envoi d'un token d'authentification (Méthode "sign")
                             res.status(200).json({
                                 userId: user._id,
-                                // Utilier la fonction .sign de jsonwebtoken pour chiffrer un nouveau token.
                                 token: jwt.sign(
-                                    // Ajouter les arguments :
-                                    //#1. Données à encoder dans le Token ("Payload") => ID utilisateur
+                                    // Arguments : userId, clé cryptage, durée de validité
                                     { userId: user._id },
-                                    //#2. Clé secrète pour crypter le Token
                                     jwtKey,
-                                    //#3. Définir la durée de validité du Token
-                                    { expiresIn: '24h'}
+                                    { expiresIn: '24h' }
                                 )
                             });
                         };
@@ -84,5 +69,5 @@ exports.login = (req, res, next) => {
                     .catch(error => res.status(500).json({ error }))
             };
         })
-        .catch(err => res.status(500).json({ error }));
+        .catch(error => res.status(501).json({ error }));
 };

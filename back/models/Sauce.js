@@ -1,11 +1,11 @@
-//*==============================================
-//*================ SAUCE MODEL =================
-//*==============================================
+//==============================================
+//================ SAUCE MODEL =================
+//==============================================
 
-// Importer Mongoose
+//* Mongoose import
 const mongoose = require('mongoose');
 
-// Créer un schema pour nos utilisateurs
+//* Schéma Sauce
 const sauceSchema = mongoose.Schema({
     userId: { type: String, required: true},
     name: { type: String, required: true},
@@ -20,7 +20,6 @@ const sauceSchema = mongoose.Schema({
     usersDisliked: { type: [String], required: true},  
 });
 
-
-// Exporter le modèle terminé
+//* Exports
 module.exports = mongoose.model('Sauce', sauceSchema);
 

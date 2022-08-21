@@ -1,43 +1,34 @@
-//*===============================================
-//*================= SAUCE ROUTES ================
-//*===============================================
+//===============================================
+//================= SAUCE ROUTER ================
+//===============================================
 
-//! Base
-// Importer Express
-const express = require('express');
+//* Imports
+const express = require('express'); // Express
+const auth = require('../middleware/auth') // Authentification (sécurité)
+const multer = require('../middleware/multer-config') // Multer (images)
+const sauceController = require('../controllers/sauce') // Sauce contrôleur
 
-// Declarer Router
-const sauceRouter = express.Router();
-
-// Importer Controller
-const sauceController = require('../controllers/sauce')
-
-//! Extra
-// Importer Authentification (middleware)
-const auth = require('../middleware/auth')
-
-// Importer Multer config (middleware)
-const multer = require('../middleware/multer-config')
-
-//! Routes
+//* Routeur
+// Déclarer routeur Sauce
+const sauceRouter = express.Router(); 
 
 // POST => Publier une sauce (/api/sauces)
 sauceRouter.post('/api/sauces', auth, multer, sauceController.createSauce)
 
 // GET => Afficher toutes les sauces (/api/sauces)
-sauceRouter.get('/api/sauces', auth, multer, sauceController.getAllSauces)
+sauceRouter.get('/api/sauces', auth, sauceController.getAllSauces)
 
 // GET => Afficher une sauce en particulier (/api/sauces/:id)
-sauceRouter.get('/api/sauces/:id', auth, multer, sauceController.getOneSauce)
+sauceRouter.get('/api/sauces/:id', auth, sauceController.getOneSauce)
 
 // PUT => Modifier une sauce (/api/sauces/:id)
 sauceRouter.put('/api/sauces/:id', auth, multer, sauceController.modifySauce)
 
 // DELETE => Supprimer une sauce (/api/sauces/:id)
-sauceRouter.delete('/api/sauces/:id', auth, multer, sauceController.deleteSauce)
+sauceRouter.delete('/api/sauces/:id', auth, sauceController.deleteSauce)
 
-// POST => Liker / Disliker une sauce (/api/sauces/:id/like)
-sauceRouter.post('/api/sauces/:id/like', auth, multer, sauceController.likeSauce)
+// POST => Liker/Disliker une sauce (/api/sauces/:id/like)
+sauceRouter.post('/api/sauces/:id/like', auth, sauceController.likeDislikeSauce)
 
-//! Export
+//* Exports
 module.exports = sauceRouter;

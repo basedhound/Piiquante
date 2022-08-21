@@ -1,18 +1,20 @@
-//*============================================
-//*================= CONFIG ===================
-//*============================================
+//============================================
+//================= CONFIG ===================
+//============================================
 
-// Gestion des Ports
+//* Gestion du Port :
+// normalizePort renvoie un port valide, qu'il soit fourni sous la forme d'un numéro ou d'une chaîne
 normalizePort = val => {
     const port = parseInt(val, 10);
     if (isNaN(port)) { return val; }
     if (port >= 0) { return port; }
     return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+exports.port = normalizePort(process.env.PORT || '3000');
 
-// Gestion des Erreurs
-errorHandler = error => {
+//* Gestion des Erreurs :
+// errorHandler recherche les différentes erreurs et les gère de manière appropriée
+exports.errorHandler = error => {
     if (error.syscall !== 'listen') {
         throw error;
     }
@@ -29,17 +31,8 @@ errorHandler = error => {
             break;
         default:
             throw error;
-    }
+    };
 };
-
-app.on('error', errorHandler);
-app.on('listening', () => {
-    const address = app.address();
-    console.log(address)
-    const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-    console.log(bind)
-    console.log('Listening on ' + bind);
-});
 
 
 
