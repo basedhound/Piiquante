@@ -3,10 +3,10 @@
 //===============================================
 
 //* Imports : 
-const express = require('express'); // Express
-const emailValidator = require('../middleware/email-validator') // Email validator (sécurité)
-const passwordValidator = require('../middleware/password-validator') // Password validator (sécurité)
-const userController = require('../controllers/user') // User contrôleur
+const express = require('express'); 
+const emailValidator = require('../middleware/email-validator')
+const passwordValidator = require('../middleware/password-validator') 
+const userController = require('../controllers/user') 
 
 //* Routeur : 
 // Déclarer routeur User
@@ -19,3 +19,5 @@ userRouter.post('/api/auth/login', userController.login)
 
 //* Exports : 
 module.exports = userRouter;
+
+

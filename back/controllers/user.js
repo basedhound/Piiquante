@@ -3,12 +3,18 @@
 //===================================================
 
 //* Imports :
-const User = require('../models/User'); // Modèle "User"
-const cryptojs = require('crypto-js') // Crypto-js (chiffrage email)
-const bcrypt = require('bcrypt'); // Bcrypt (hashage password)
-const jwt = require('jsonwebtoken'); // Json-Web-Token (authentification)
-const jwtKey = process.env.JWT_KEY; // Clé secrète JWT (.env)
-const cryptojsKey = process.env.CRYPTOJS_KEY; // Clé secrète Crypto-js (.env)
+// Modèle "User"
+const User = require('../models/User');
+// Crypto-js (chiffrage email)
+const cryptojs = require('crypto-js');
+// Bcrypt (hashage password)
+const bcrypt = require('bcrypt'); 
+// Json-Web-Token (authentification)
+const jwt = require('jsonwebtoken'); 
+// Clé secrète JWT (.env)
+const jwtKey = process.env.JWT_KEY; 
+// Clé secrète Crypto-js (.env)
+const cryptojsKey = process.env.CRYPTOJS_KEY; 
 
 //* Fonctions :
 
@@ -38,7 +44,7 @@ exports.signup = (req, res, next) => {
 
 // Connexion => Correspondance mail et password
 exports.login = (req, res, next) => {
-    // Recupérer mail crypté, le convertir en string
+    // Crypter email requête, puis le convertir en string
     const emailCryptojs = cryptojs.HmacSHA256(req.body.email, cryptojsKey).toString()
     // Chercher correspondance dans la database (Méthode "findOne")
     User.findOne({ email: emailCryptojs.toString() })

@@ -26,3 +26,5 @@ module.exports = (req, res, next) => {
         return res.status(403).json({ error: `Le mot de passe n'est pas assez fort ${passwordSchema.validate('req.body.password', { list: true })}` });
     };
 };
+
+

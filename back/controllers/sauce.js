@@ -5,6 +5,7 @@
 //* Imports : 
 const Sauce = require('../models/Sauce'); // Modèle Sauce
 
+//* Imports : 
 const fs = require('fs') // File system (Node.js)
 // Pour utiliser la fonction "unlink" et supprimer une image stockée localement.
 
@@ -21,7 +22,7 @@ exports.getAllSauces = (req, res, next) => {
 
 //* Afficher une sauce en particulier => GET
 exports.getOneSauce = (req, res, next) => {
-    // Appliquer méthode "find" à notre modèle + Paramètre id
+    // Appliquer méthode "findOne" à notre modèle + Paramètre id
     Sauce.findOne({ _id: req.params.id })
         .then(thing => res.status(200).json(thing))
         .catch(error => res.status(404).json({ error }));
@@ -41,8 +42,10 @@ exports.createSauce = (req, res, next) => {
         userId: req.auth.userId,
         // Générer URL de l'image
         imageUrl: `${req.protocol}://${req.get('host')}/public/images/${req.file.filename}`,
+        // Initialiser à 0
         likes: 0,
         dislikes: 0,
+        // Initialiser tableaux vides
         usersLiked: [],
         usersDisliked: []
     });
@@ -128,7 +131,6 @@ exports.likeDislikeSauce = (req, res, next) => {
                 .then(() => res.status(200).json({ message: `Sauce likée` }))
                 .catch((error) => res.status(400).json({ error }))
             break;
-
         //! Annuler un Like ou un Dislike
         case 0:
             // Trouver correspondance
@@ -141,7 +143,6 @@ exports.likeDislikeSauce = (req, res, next) => {
                             .then(() => res.status(200).json({ message: `Neutre` }))
                             .catch((error) => res.status(400).json({ error }))
                     }
-
                     // 2 - Annulation d'un Dislike (si user présent dans tableau "usersDisliked")
                     if (sauce.usersDisliked.includes(userId)) {
                         // Retirer userId du tableau usersDisliked, Décrémenter 1 dans Dislikes
@@ -152,7 +153,6 @@ exports.likeDislikeSauce = (req, res, next) => {
                 })
                 .catch((error) => res.status(404).json({ error }))
             break;
-
         //! Disliker une sauce
         case -1:
             // Correspondance Sauce, Ajouter usersId au tableau usersDisliked, Incrémenter 1 dans Dislikes
