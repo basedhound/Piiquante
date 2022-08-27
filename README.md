@@ -24,8 +24,6 @@ Prérequis  : Node.js et NPM installés sur votre ordinateur
 
 - 4 : Lancement API : Depuis le dossier "back", lancez le script "npm start" depuis votre environnement de développement/Terminal.
 
-- Le serveur devrait se lancer sur localhost port 4200 par défaut. Vous pouvez utiliser l'extension VSCode "Live Server" pour lancer le site depuis "index.html". 
-
 # Compétences évaluées
 - Stocker des données de manière sécurisée
 - Implémenter un modèle logique de données conformément à la réglementation
