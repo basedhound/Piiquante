@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 Prévalide les informations avant de les enregistrer */
 const uniqueValidator = require('mongoose-unique-validator');
 
-//* Schéma utilisateur 
+//* Schema utilisateur 
 const userSchema = mongoose.Schema({
     email: { type: String, required: true, unique: true}, // Email unique
     password: { type: String, required: true}     

@@ -9,8 +9,7 @@ const passwordValidator = require('../middleware/password-validator')
 const userController = require('../controllers/user') 
 
 //* Routeur : 
-// Déclarer routeur User
-const userRouter = express.Router();
+const userRouter = express.Router(); // Déclarer routeur User
 
 // POST => Permet à l'utilisateur de créer un compte
 userRouter.post('/api/auth/signup', emailValidator, passwordValidator, userController.signup)

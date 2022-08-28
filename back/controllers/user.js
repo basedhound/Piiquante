@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         // Transmettre mail/pass à un objet User
         .then(hashedPassword => {
-            // Crée un new utilisateur
+            // Créer un new utilisateur
             const user = new User({
                 email: emailCryptojs,
                 password: hashedPassword

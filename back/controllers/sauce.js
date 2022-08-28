@@ -5,7 +5,6 @@
 //* Imports : 
 const Sauce = require('../models/Sauce'); // Modèle Sauce
 
-//* Imports : 
 const fs = require('fs') // File system (Node.js)
 // Pour utiliser la fonction "unlink" et supprimer une image stockée localement.
 

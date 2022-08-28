@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 //* (Sécurité) Variables d'environnement ( => .env )
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
-const cluster = process.env.DB_CLUSTER
+const cluster = process.env.DB_CLUSTER;
 const database = process.env.DATABASE;
 
 //* MongoDB adresse
@@ -22,6 +22,5 @@ mongoose.connect(uri)
 
 //* Exports 
 module.exports = { mongoose };
-
 
 

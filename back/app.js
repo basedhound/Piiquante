@@ -7,6 +7,7 @@ require("dotenv").config(); // Dotenv (Sécurité)
 const express = require('express'); // Express
 const helmet = require('helmet'); // Helmet (Sécurité)
 const path = require('path') // Accès path serveur (route /images pour Multer)
+// const cors = require("cors"); // Headers HTTP
 
 //* Imports - Code :
 require('./services/database'); // Database (connexion)
@@ -59,7 +60,7 @@ app.use(sauceRouter); // Routes Sauce
 
 //* Lancement :
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+    console.log(`Server listening on port ${port}`);
 });
 
 //* Exports : 

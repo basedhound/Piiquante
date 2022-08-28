@@ -5,7 +5,7 @@
 //* Mongoose import
 const mongoose = require('mongoose');
 
-//* Schéma Sauce
+//* Schema Sauce
 const sauceSchema = mongoose.Schema({
     userId: { type: String, required: true},
     name: { type: String, required: true},
@@ -22,4 +22,4 @@ const sauceSchema = mongoose.Schema({
 
 //* Exports
 module.exports = mongoose.model('Sauce', sauceSchema);
-
+// Arguments : [1] Nom du modèle (fichier), [2] Nom du schéma (constante)
