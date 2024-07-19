@@ -1,10 +1,5 @@
-
-//===============================================
-//================== DATABASE ===================
-//===============================================
-
 //* Mongoose import
-const mongoose = require("mongoose"); 
+const mongoose = require("mongoose");
 
 //* (Sécurité) Variables d'environnement ( => .env )
 const username = process.env.DB_USERNAME;
@@ -16,11 +11,10 @@ const database = process.env.DATABASE;
 const uri = `mongodb+srv://${username}:${password}@${cluster}.zdqnwhr.mongodb.net/${database}?retryWrites=true&w=majority`;
 
 //* MongoDB connexion
-mongoose.connect(uri)
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch((err) => console.error('Connexion à MongoDB échouée !', err));
+mongoose
+   .connect(uri)
+   .then(() => console.log("Connexion à MongoDB réussie !"))
+   .catch((err) => console.error("Connexion à MongoDB échouée !", err));
 
-//* Exports 
+//* Exports
 module.exports = { mongoose };
-
-
