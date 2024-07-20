@@ -3,7 +3,7 @@
       <img src="/.docs/preview/preview.webp" alt="Project Banner">
     </a>
   <h3 align="center">Chili Sauces</h3>
-  <h2 align="center">School Project</h2>
+  <h4 align="center">School Project</h4>
 </div>
 
 ## <br /> 📋 <a name="table">Table of Contents</a>
