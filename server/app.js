@@ -1,20 +1,19 @@
-//? Imports - Librairie :
+// Imports:
 require("dotenv").config(); // Dotenv (Sécurité)
 const express = require("express"); // Express
 const helmet = require("helmet"); // Helmet (Sécurité)
 const path = require("path"); // Accès path serveur (route /images pour Multer)
 // const cors = require("cors"); // Headers HTTP
-
-//? Imports - Code :
+//
 require("./services/database"); // Database (connexion)
-const userRouter = require("./routes/user"); // Routes User
-const sauceRouter = require("./routes/sauce"); // Routes Sauce
+const userRouter = require("./routes/user.routes.js"); // Routes User
+const sauceRouter = require("./routes/sauce.routes.js"); // Routes Sauce
 const { port, errorHandler } = require("./config"); // Config : Port, Erreurs
 
-//? Express :
+// Express :
 const app = express(); // Application Express
 
-//? Config : Port, Erreurs
+// Config : Port, Erreurs
 app.on("error", errorHandler);
 app.on("listening", () => {
    const address = app.address();
@@ -28,7 +27,7 @@ app.on("listening", () => {
 res.send(`Test : Listening on port ${port}`)
 }) */
 
-// ? Middleware :
+// Middleware :
 // Helmet : Protège l'application de certaines vulnérabilités en configurant de manière appropriée des headers HTTP
 app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" } }));
 // Paramétrage des headers HTTP :
@@ -48,23 +47,23 @@ app.use((req, res, next) => {
    next();
 });
 
-//? Parser : Analyse le corps d'une requête HTTP, assemble les données, crée un objet body exploitable
+// Parser : Analyse le corps d'une requête HTTP, assemble les données, crée un objet body exploitable
 app.use(express.json());
 
-//? Servir des fichiers statiques (images...)
+// Servir des fichiers statiques (images...)
 app.use(
    "/public/images",
    express.static(path.join(__dirname, "/public/images"))
 );
 
-//? Routes
+// Routes
 app.use(userRouter); // Routeur User
 app.use(sauceRouter); // Routes Sauce
 
-//? Lancement :
+// Lancement :
 app.listen(port, () => {
    console.log(`Server listening on port ${port}`);
 });
 
-//? Exports :
+// Exports :
 module.exports = app;
