@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://iphone15-fv.netlify.app" target="_blank">
+    <a href="" target="_blank">
       <img src="/.docs/preview/preview.webp" alt="Project Banner">
     </a>
   <h3 align="center">Chili Sauces</h3>
