@@ -87,6 +87,13 @@ Make sure you have the following installed on your machine:
 - [Node.js](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/) (Node Package Manager)
 
+Install nodemon globally on your machine, open your terminal and run the following command:
+```bash
+npm install -g nodemon
+```
+
+- **Nodemon** is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+
 <br/>**Cloning the Repository**
 
 ```bash
